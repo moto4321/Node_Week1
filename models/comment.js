@@ -2,7 +2,11 @@ const mongoose = require( "mongoose")
 const moment = require("moment")
 
 const CommentSchema = new mongoose.Schema({
-  contents: {
+  id: {
+    type: Number,
+    required: true,
+  },
+  comment: {
     type: String,
     required: true,
   },
@@ -10,13 +14,21 @@ const CommentSchema = new mongoose.Schema({
     type: String,
     default: moment().format("YYYY-MM-DD hh:mm:ss"),
   },
-  post: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "post",
+  // post: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "post",
+  // },
+  // creator: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "user",
+  // },
+  postId: {
+    type: Number,
+    required: true,
   },
-  creator: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
+  deleted: {
+    type: Number,
+    default: 0
   },
   creatorName: { type: String },
 });

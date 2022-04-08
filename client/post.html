@@ -23,7 +23,8 @@
         url: `/posts/${postId}`,
         data: {},
         success: function(response) {
-          let { id, title, contents, creator, date, comments } = response.post
+          let { id, title, contents, creator, date } = response.post
+          let { comments } = response
 
           let post_html = `<ul>
                             <div>title : ${title}</div>
@@ -37,10 +38,18 @@
 
           $('#detail').append(post_html)
 
-          // for ()
+          for (let i = 0; i < comments.length; i++) {
+            let comment = comments[i]['comment']
+            let id = comments[i]['id']
+            let postId = comments[i]['postId']
 
-          let comments_html = ``
-          $('#comments').append(comments_html)
+            let comments_html = `<ul>${comment}</ul>
+                                  <button onclick="updateComment(${id})">수정</button>
+                                  <button onclick="deleteComment(${id})">삭제</button>
+                                `
+
+            $('#comments').append(comments_html)
+          }
         }
       })
     }
@@ -62,6 +71,39 @@
       window.location.href=`/posts/update/${postId}`
     }
 
+    function createComment () {
+      // let comment = $('#comment').val()
+      // $.ajax({
+      //   type: "POST",
+      //   url: `/comments/${postId}`,
+      //   data: {
+      //     'comment': comment
+      //   },
+      //   success: function(response) {
+      //     if (response.success) {
+
+      //     }
+      //   }
+      // })
+    }
+
+    function updateComment () {
+
+    }
+
+    function deleteComment (id) {
+      $.ajax({
+        type: "POST",
+        url: `/comments/${postId}/${id}`,
+        data: {},
+        success: function(response) {
+          console.log(response)
+          window.location.reload()
+        }
+      })
+    }
+
+
   </script>
 </head>
 <body>
@@ -69,8 +111,26 @@
   <div id="detail">
 
   </div>
-  <input id="comment" />
-  <button>댓글 작성</button>
+
+  <div>
+    <input id="comment" />
+    <button onclick="
+      let comment = $('#comment').val()
+      $.ajax({
+        type: 'POST',
+        url: `/comments/${postId}`,
+        data: {
+          'comment': comment
+        },
+        success: function(response) {
+          if (response.success) {
+            window.location.reload()
+          }
+        }
+      })
+    " type="button">댓글 작성</button>
+  </div>
+
   <div id="comments">
 
   </div>

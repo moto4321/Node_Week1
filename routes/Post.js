@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Post = require('../models/post')
+const Comment = require('../models/comment')
 const moment = require('moment')
 const bodyParser = require('body-parser')
 const path = require('path')
@@ -15,8 +16,13 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const id = parseInt(req.params.id)
   const post = await Post.findOne({ id: id });
-  // res.send(post.html)
-  res.json({post})
+  
+  const comments = await Comment.find({ postId: id, deleted: 0 })
+  console.log(comments)
+  res.json({
+    post,
+    comments
+  })
   // res.sendFile(path.join(__dirname, '../client/post.html'), post);
   // res.render(path.join(__dirname + '../client/post.html'), {
   //   post: post
