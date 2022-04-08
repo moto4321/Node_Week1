@@ -41,8 +41,6 @@ router.post('/:postid', async (req, res) => {
 router.post('/:postid/:id', async (req, res) => {
   const postId = req.params.postid
   const id = req.params.id
-  console.log(postId)
-  console.log(id)
 
   await Comment.updateOne({ postId: postId, id: id }, {$set: { deleted: 1 }})
   res.json({ success: true })

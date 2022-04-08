@@ -30,7 +30,7 @@ const CommentSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  creatorName: { type: String },
+  // creatorName: { type: String },
 });
 
 const Comment = mongoose.model("comment", CommentSchema);

@@ -89,6 +89,8 @@
         url: `/comments/${postId}/${id}`,
         data: {},
         success: function(response) {
+          $('#write-comment').addClass("hidden")
+
           $('#edit-box').removeClass("hidden");
           $('#edit-comment').val(response.comment)
           commentId = id
@@ -111,6 +113,7 @@
             if (response.success) {
               $('#edit-comment').empty()
               $('#edit-box').addClass("hidden");
+              $('#write-comment').removeClass("hidden")
               window.location.reload()
             }
           }
@@ -132,12 +135,12 @@
   </script>
 </head>
 <body>
-  <h4><a href="/">Node JS</a></h4>
+  <h3><a href="/">Node JS</a></h3>
   <div id="detail">
 
   </div>
 
-  <div>
+  <div id="write-comment">
     <input id="comment" />
     <button onclick="
       if ($(comment).val() === '') {

@@ -18,7 +18,6 @@ router.get('/:id', async (req, res) => {
   const post = await Post.findOne({ id: id });
   
   const comments = await Comment.find({ postId: id, deleted: 0 })
-  console.log(comments)
   res.json({
     post,
     comments
@@ -68,14 +67,12 @@ router.get('/update/:id', async (req, res) => {
 
 //게시물 수정
 router.patch('/:id', async (req, res) => {
-  // console.log(req.body)
   const { title, contents, writer } = req.body
   const postId = parseInt(req.params.id)
 
   await Post.updateOne({ id: postId }, {$set: { title: title, contents: contents, writer: writer }})
   
   const post = await Post.findOne({ id: postId })
-  // console.log(post)
   res.json(post)
 })
 

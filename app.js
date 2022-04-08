@@ -20,15 +20,7 @@ mongoose.connect(process.env.MONGO_URI, {
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 
-
-
 app.use(express.json())
-
-
-
-// app.get("/", (req, res) => {
-//   res.send('hi!')
-// })
 
 app.use(express.static("./client"))
 
