@@ -32,7 +32,6 @@
           let { id, title, contents, writer, date } = response.post
           let { comments } = response
 
-          console.log(response.post)
 
           let post_html = `<ul>
                             <div>title : ${title}</div>
@@ -46,12 +45,14 @@
 
           $('#detail').append(post_html)
 
-          for (let i = 0; i < comments.length; i++) {
-            let comment = comments[i]['comment']
-            let id = comments[i]['id']
-            let postId = comments[i]['postId']
+          // for (let i = 0; i < comments.length; i++) {
+          for (comment of comments) {
+            let comm = comment['comment']
+            let id = comment['id']
+            let postId = comment['postId']
 
-            let comments_html = `<ul>${comment}</ul>
+
+            let comments_html = `<ul>${comm}</ul>
                                   <button onclick="showEditBox(${id})">수정</button>
                                   <button onclick="deleteComment(${id})">삭제</button>
                                 `
@@ -127,7 +128,6 @@
         url: `/comments/${postId}/${id}`,
         data: {},
         success: function(response) {
-          console.log(response)
           window.location.reload()
         }
       })
