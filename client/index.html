@@ -26,38 +26,21 @@
             
             let temp_html = ``
 
-            temp_html = `<div onclick="showPost(${id})">
+            // temp_html = `<div onclick="showPost(${id})">
+            temp_html = `<div onclick="location.href='/post.html?id=${id}'">
                             <h2>✅${title}</h2>
                             <h4>${contents}</h4>
-                            <button onclick="updatePost()">수정</button>
-                            <button onclick="deletePost()">삭제</button>
                         </div>
                         `
             
-            $('#posts-list').append(temp_html)            
+            $('#posts-list').append(temp_html)   
           }
         }
       })
     }
 
     function showPost (id) {
-      // $.ajax({
-      //   type: "GET",
-      //   url: `/posts/${id}`,
-      //   data: {},
-      //   success: function(response) {
-
-      //   }
-      // })
       window.location.href=`/posts/${id}`
-    }
-
-    function updatePost () {
-      console.log('update!!!')
-    }
-
-    function deletePost () {
-      console.log('delete!!!')
     }
   </script>
 

@@ -8,18 +8,72 @@
   <!-- jQuery를 import 합니다 -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const postId = urlParams.get("id");
+
+
     $(document).ready(function () {
       showPost();
     })
 
     function showPost () {
-      
+      $.ajax({
+        type: "GET",
+        url: `/posts/${postId}`,
+        data: {},
+        success: function(response) {
+          let { id, title, contents, creator, date, comments } = response.post
+
+          let post_html = `<ul>
+                            <div>title : ${title}</div>
+                            <div>contents : ${contents}</div>
+                            <div>creator : ${creator}</div>
+                            <div>date : ${date}</div>
+                            <button onclick="location.href='/create.html?id=${id}'">수정</button>
+                            <button onclick="deletePost(${id})">삭제</button>
+                          </ul>`
+          
+
+          $('#detail').append(post_html)
+
+          // for ()
+
+          let comments_html = ``
+          $('#comments').append(comments_html)
+        }
+      })
+    }
+
+    function deletePost (postId) {
+      $.ajax({
+        type: "POST",
+        url: `/posts/${postId}`,
+        data: {},
+        success: function(response) {
+          if (response.success) {
+            window.location.href="/index.html"
+          }
+        }
+      })
+    }
+
+    function updatePost (postId) {
+      window.location.href=`/posts/update/${postId}`
     }
 
   </script>
 </head>
 <body>
   welcome!!
+  <div id="detail">
+
+  </div>
+  <input id="comment" />
+  <button>댓글 작성</button>
+  <div id="comments">
+
+  </div>
 
 </body>
 </html>

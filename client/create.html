@@ -12,11 +12,51 @@
   </style>
 
   <script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const postId = urlParams.get("id");
+
+    $(document).ready(function () {
+      if (queryString) {
+        getData();
+      }
+    })
+
+    function getData () {
+      $.ajax({
+        type: "GET",
+        url: `/posts/update/${postId}`,
+        data: {},
+        success: function(response) {
+          if (response) {
+            $(title).val(response.post.title)
+            $(contents).val(response.post.contents)
+          }
+        }
+      })
+    }
+
     function createPost () {
       let title = $('#title').val()
       let contents = $('#contents').val()
 
-      $.ajax({
+      if (queryString) {
+        $.ajax({
+          type: 'PATCH',
+          url: `/posts/${postId}`,
+          data: {
+              'title': title,
+              'contents': contents,
+          },
+
+          success: function (response) {
+              alert('포스팅 수정 성공')
+              // console.log(response.id)
+              window.location.href=`/post.html?id=${response.id}`
+          }
+        })
+      } else {
+        $.ajax({
           type: 'POST',
           url: '/posts',
           data: {
@@ -26,10 +66,14 @@
 
           success: function (response) {
               alert('포스팅 성공')
-              window.location.reload()
+              window.location.href='/index.html'
           }
-      })
+        })
+      }
+      
     }
+
+
   </script>
 
 </head>
