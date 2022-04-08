@@ -5,12 +5,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    .hidden {
+      visibility: hidden;
+    }
+  </style>
   <!-- jQuery를 import 합니다 -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script>
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const postId = urlParams.get("id");
+    let commentId
 
 
     $(document).ready(function () {
@@ -23,13 +29,15 @@
         url: `/posts/${postId}`,
         data: {},
         success: function(response) {
-          let { id, title, contents, creator, date } = response.post
+          let { id, title, contents, writer, date } = response.post
           let { comments } = response
+
+          console.log(response.post)
 
           let post_html = `<ul>
                             <div>title : ${title}</div>
                             <div>contents : ${contents}</div>
-                            <div>creator : ${creator}</div>
+                            <div>writer : ${writer}</div>
                             <div>date : ${date}</div>
                             <button onclick="location.href='/create.html?id=${id}'">수정</button>
                             <button onclick="deletePost(${id})">삭제</button>
@@ -44,7 +52,7 @@
             let postId = comments[i]['postId']
 
             let comments_html = `<ul>${comment}</ul>
-                                  <button onclick="updateComment(${id})">수정</button>
+                                  <button onclick="showEditBox(${id})">수정</button>
                                   <button onclick="deleteComment(${id})">삭제</button>
                                 `
 
@@ -72,23 +80,42 @@
     }
 
     function createComment () {
-      // let comment = $('#comment').val()
-      // $.ajax({
-      //   type: "POST",
-      //   url: `/comments/${postId}`,
-      //   data: {
-      //     'comment': comment
-      //   },
-      //   success: function(response) {
-      //     if (response.success) {
 
-      //     }
-      //   }
-      // })
     }
 
-    function updateComment () {
+    function showEditBox (id) {
+      $.ajax({
+        type: "GET",
+        url: `/comments/${postId}/${id}`,
+        data: {},
+        success: function(response) {
+          $('#edit-box').removeClass("hidden");
+          $('#edit-comment').val(response.comment)
+          commentId = id
+        }
+      })
+    }
 
+    function updateComment (id) {
+      const newComment = $('#edit-comment').val()
+      if (newComment === '') {
+        alert('댓글 내용을 입력해주세요')
+      } else {
+        $.ajax({
+          type: "PATCH",
+          url: `comments/${postId}/${commentId}`,
+          data: {
+            newComment: newComment
+          },
+          success: function(response) {
+            if (response.success) {
+              $('#edit-comment').empty()
+              $('#edit-box').addClass("hidden");
+              window.location.reload()
+            }
+          }
+        })
+      }
     }
 
     function deleteComment (id) {
@@ -102,12 +129,10 @@
         }
       })
     }
-
-
   </script>
 </head>
 <body>
-  welcome!!
+  <h4><a href="/">Node JS</a></h4>
   <div id="detail">
 
   </div>
@@ -115,22 +140,30 @@
   <div>
     <input id="comment" />
     <button onclick="
-      let comment = $('#comment').val()
-      $.ajax({
-        type: 'POST',
-        url: `/comments/${postId}`,
-        data: {
-          'comment': comment
-        },
-        success: function(response) {
-          if (response.success) {
-            window.location.reload()
+      if ($(comment).val() === '') {
+        alert('댓글 내용을 입력해주세요')
+      } else {
+        let comment = $('#comment').val()
+        $.ajax({
+          type: 'POST',
+          url: `/comments/${postId}`,
+          data: {
+            'comment': comment
+          },
+          success: function(response) {
+            if (response.success) {
+              window.location.reload()
+            }
           }
-        }
-      })
+        })
+      }
     " type="button">댓글 작성</button>
   </div>
 
+  <div id="edit-box" class="hidden">
+    <input id="edit-comment" />
+    <button onclick="updateComment()">댓글 수정</button>
+  </div>
   <div id="comments">
 
   </div>

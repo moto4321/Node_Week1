@@ -3,10 +3,14 @@ const Post = require('../models/post')
 const Comment = require('../models/comment')
 const router = express.Router()
 
-// 해당 게시물 전체 댓글 가져오기
-// router.get('/:postid', (req, res) => {
+// 해당 댓글 하나 가져오기
+router.get('/:postid/:id', async (req, res) => {
+  const id = req.params.id
 
-// })
+  const oneComment = await Comment.findOne({ id: id })
+
+  res.json(oneComment)
+})
 
 // 댓글 작성
 router.post('/:postid', async (req, res) => {
@@ -41,14 +45,18 @@ router.post('/:postid/:id', async (req, res) => {
   console.log(id)
 
   await Comment.updateOne({ postId: postId, id: id }, {$set: { deleted: 1 }})
-  console.log('????')
   res.json({ success: true })
 })
 
 
 // 댓글 수정
-router.patch('/:postid/:id', (req, res) => {
+router.patch('/:postid/:id', async (req, res) => {
+  const id = req.params.id
+  const { newComment } = req.body
+
+  await Comment.updateOne({ id: id }, {$set: { comment: newComment }})
   
+  res.json({ success: true })
 })
 
 module.exports = router;

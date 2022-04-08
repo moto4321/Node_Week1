@@ -31,16 +31,19 @@ router.get('/:id', async (req, res) => {
 
 // 게시물 하나 올리기
 router.post('/', async (req, res) => {
-  const { title, contents } = req.body;
+  const { title, contents, writer } = req.body;
   const maxId = await Post.findOne().sort({"id":-1})
-  const newId = maxId.id + 1
-  // if (maxId) {
-  //   maxId = 0
-  // }
+  let newId
+  if (!maxId) {
+    newId = 1
+  } else {
+    newId = maxId.id + 1
+  }
   const newPost = await Post.create({
     id: newId,
     title,
     contents,
+    writer,
     date: moment().format("YYYY-MM-DD hh:mm:ss"),
   })
   res.json(newPost)
@@ -60,16 +63,16 @@ router.get('/update/:id', async (req, res) => {
 
   const post = await Post.findOne({ id: postId })
 
-  res.json({post})
+  res.json({ post })
 })
 
 //게시물 수정
 router.patch('/:id', async (req, res) => {
   // console.log(req.body)
-  const { title, contents } = req.body
+  const { title, contents, writer } = req.body
   const postId = parseInt(req.params.id)
 
-  await Post.updateOne({ id: postId }, {$set: { title: title, contents: contents }})
+  await Post.updateOne({ id: postId }, {$set: { title: title, contents: contents, writer: writer }})
   
   const post = await Post.findOne({ id: postId })
   // console.log(post)

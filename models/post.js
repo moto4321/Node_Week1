@@ -29,9 +29,8 @@ const PostSchema = new mongoose.Schema({
   //   type: mongoose.Schema.Types.ObjectId,
   //   ref: "user",
   // },
-  creator: {
+  writer: {
     type: String,
-    default: 'wooseok',
   },
   deleted: {
     type : Number,
