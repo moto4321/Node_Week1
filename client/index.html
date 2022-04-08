@@ -19,10 +19,11 @@
         url: "/posts",
         data: {},
         success: function(response) {
-          for (let i = 0; i < response.length; i++) {
-            let title = response[i]['title']
-            let contents = response[i]['contents']
-            let id = response[i]['id']
+          // for (let i = 0; i < response.length; i++) {
+          for (data of response) {
+            let title = data['title']
+            let contents = data['contents']
+            let id = data['id']
             
             let temp_html = ``
 
