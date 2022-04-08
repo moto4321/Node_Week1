@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- jQuery를 import 합니다 -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <style>
+
+  </style>
+
+  <script>
+    function createPost () {
+      let title = $('#title').val()
+      let contents = $('#contents').val()
+
+      $.ajax({
+          type: 'POST',
+          url: '/posts',
+          data: {
+              'title': title,
+              'contents': contents,
+          },
+
+          success: function (response) {
+              alert('포스팅 성공')
+              window.location.reload()
+          }
+      })
+    }
+  </script>
+
+</head>
+<body>
+  <form>
+    <label>Title</label>
+    <input id="title" />
+    <label>Content</label>
+    <input id="contents" />
+  </form>
+  <button onclick="createPost()" type="button">post!</button>
+</body>
+</html>

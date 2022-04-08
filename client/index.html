@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- jQuery를 import 합니다 -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      showPosts();
+    })
+
+    function showPosts () {
+      $.ajax({
+        type: "GET",
+        url: "/posts",
+        data: {},
+        success: function(response) {
+          for (let i = 0; i < response.length; i++) {
+            let title = response[i]['title']
+            let contents = response[i]['contents']
+            let id = response[i]['id']
+            
+            let temp_html = ``
+
+            temp_html = `<div onclick="showPost(${id})">
+                            <h2>✅${title}</h2>
+                            <h4>${contents}</h4>
+                            <button onclick="updatePost()">수정</button>
+                            <button onclick="deletePost()">삭제</button>
+                        </div>
+                        `
+            
+            $('#posts-list').append(temp_html)            
+          }
+        }
+      })
+    }
+
+    function showPost (id) {
+      // $.ajax({
+      //   type: "GET",
+      //   url: `/posts/${id}`,
+      //   data: {},
+      //   success: function(response) {
+
+      //   }
+      // })
+      window.location.href=`/posts/${id}`
+    }
+
+    function updatePost () {
+      console.log('update!!!')
+    }
+
+    function deletePost () {
+      console.log('delete!!!')
+    }
+  </script>
+
+</head>
+<body>
+  <nav>
+    <h4>Node JS</h4>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <!-- <li><a href="/create">Create Post</a></li> -->
+      <li><a href="/create.html">Create Post</a></li>
+    </ul>
+  </nav>
+
+  <div class="posts" id="posts-list">
+
+  </div>
+
+
+</body>
+</html>
