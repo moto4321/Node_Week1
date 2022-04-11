@@ -31,6 +31,7 @@ const PostSchema = new mongoose.Schema({
   // },
   writer: {
     type: String,
+    required: true
   },
   deleted: {
     type : Number,

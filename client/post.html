@@ -34,10 +34,10 @@
 
 
           let post_html = `<ul>
-                            <div>title : ${title}</div>
-                            <div>contents : ${contents}</div>
-                            <div>writer : ${writer}</div>
-                            <div>date : ${date}</div>
+                            <div>📕 title : ${title}</div>
+                            <div>📗 contents : ${contents}</div>
+                            <div>📘 writer : ${writer}</div>
+                            <div>📙 date : ${date}</div>
                             <button onclick="location.href='/create.html?id=${id}'">수정</button>
                             <button onclick="deletePost(${id})">삭제</button>
                           </ul>`
@@ -162,7 +162,7 @@
       }
     " type="button">댓글 작성</button>
   </div>
-
+  <hr />
   <div id="edit-box" class="hidden">
     <input id="edit-comment" />
     <button onclick="updateComment()">댓글 수정</button>
