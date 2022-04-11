@@ -42,6 +42,10 @@
       let contents = $('#contents').val()
       let writer = $('#writer').val()
 
+      if (!title || !contents || !writer) {
+        alert('내용을 전부 입력해주세요');
+        return
+      }
       if (queryString) {
         $.ajax({
           type: 'PATCH',
@@ -68,8 +72,12 @@
           },
 
           success: function (response) {
-              alert('포스팅 성공')
-              window.location.href='/index.html'
+              if (response.message) {
+                alert(response.message)
+              } else {
+                alert('포스팅 성공')
+                window.location.href='/index.html'
+              }
           }
         })
       }

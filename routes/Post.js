@@ -31,6 +31,14 @@ router.get('/:id', async (req, res) => {
 // 게시물 하나 올리기
 router.post('/', async (req, res) => {
   const { title, contents, writer } = req.body;
+
+  if (!title || !contents || !writer) {
+    res.json({
+      message: '내용을 전부 입력해주세요'
+    })
+    return;
+  }
+
   const maxId = await Post.findOne().sort({"id":-1})
   let newId
   if (!maxId) {
