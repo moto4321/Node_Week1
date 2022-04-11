@@ -29,6 +29,11 @@ app.use("/posts", postRouter)
 const commentRouter = require('./routes/Comment')
 app.use("/comments", commentRouter)
 
+// 404
+app.get('*', (req,res) => {
+	res.send('404 Not Found');
+});
+
 
 app.listen(PORT, () => {
   console.log(`port on ${PORT}`)
