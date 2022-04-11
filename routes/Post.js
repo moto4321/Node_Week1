@@ -9,7 +9,6 @@ const path = require('path')
 // 전체 게시물 가져오기
 router.get('/', async (req, res) => {
   const posts = await Post.find({ deleted: 0 }).sort({ date: -1 });
-  console.log(posts)
   res.json(posts)
 })
 
@@ -18,7 +17,7 @@ router.get('/:id', async (req, res) => {
   const id = parseInt(req.params.id)
   const post = await Post.findOne({ id: id });
   
-  const comments = await Comment.find({ postId: id, deleted: 0 })
+  const comments = await Comment.find({ postId: id, deleted: 0 }).sort({ id: -1 })
   res.json({
     post,
     comments

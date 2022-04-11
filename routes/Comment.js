@@ -16,13 +16,16 @@ router.get('/:postid/:id', async (req, res) => {
 router.post('/:postid', async (req, res) => {
   const postId = parseInt(req.params.postid)
   const { comment } = req.body
+
   let newId
-  const maxId = await Comment.findOne().sort({"id":-1})
+  const maxId = await Comment.findOne().sort({ id: -1 })
   if (!maxId) {
     newId = 1
   } else {
     newId = maxId.id + 1
   }
+
+  
   
 
   const post = await Post.findOne({ id: postId })

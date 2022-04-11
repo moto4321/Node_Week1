@@ -37,8 +37,6 @@ const PostSchema = new mongoose.Schema({
     type : Number,
     default: 0,
   }
-}, {
-  timestamps: true,
 });
 
 // PostSchema.virtual("postId").get(function () {
