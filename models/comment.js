@@ -30,10 +30,10 @@ const CommentSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  // creatorName: { type: String },
+}, {
+  timestamps: true,
 });
 
 const Comment = mongoose.model("comment", CommentSchema);
 
-// export default Comment;
 module.exports = Comment;

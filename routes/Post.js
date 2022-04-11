@@ -8,7 +8,8 @@ const path = require('path')
 
 // 전체 게시물 가져오기
 router.get('/', async (req, res) => {
-  const posts = await Post.find({ deleted: 0 });
+  const posts = await Post.find({ deleted: 0 }).sort({ date: -1 });
+  console.log(posts)
   res.json(posts)
 })
 
