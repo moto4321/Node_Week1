@@ -39,3 +39,4 @@ app.listen(PORT, () => {
   console.log(`port on ${PORT}`)
 })
 
+module.exports = app;
