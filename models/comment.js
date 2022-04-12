@@ -1,5 +1,5 @@
-const mongoose = require( "mongoose")
-const moment = require("moment")
+const mongoose = require('mongoose');
+const moment = require('moment');
 
 const CommentSchema = new mongoose.Schema({
   id: {
@@ -12,7 +12,7 @@ const CommentSchema = new mongoose.Schema({
   },
   date: {
     type: String,
-    default: moment().format("YYYY-MM-DD hh:mm:ss"),
+    default: moment().format('YYYY-MM-DD hh:mm:ss'),
   },
   postId: {
     type: Number,
@@ -20,10 +20,10 @@ const CommentSchema = new mongoose.Schema({
   },
   deleted: {
     type: Number,
-    default: 0
+    default: 0,
   },
 });
 
-const Comment = mongoose.model("comment", CommentSchema);
+const Comment = mongoose.model('comment', CommentSchema);
 
 module.exports = Comment;

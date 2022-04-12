@@ -73,12 +73,16 @@
 
           success: function (response) {
               if (response.message) {
-                alert(response.message)
+                alert(response.message);
               } else {
                 alert('포스팅 성공')
                 window.location.href='/index.html'
               }
+          },
+          error: function (response) {
+            alert(response.responseJSON.errorMessage)
           }
+
         })
       }
     }

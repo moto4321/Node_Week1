@@ -1,5 +1,5 @@
-const mongoose = require( "mongoose")
-const moment = require("moment")
+const mongoose = require('mongoose');
+const moment = require('moment');
 
 const PostSchema = new mongoose.Schema({
   id: {
@@ -17,12 +17,12 @@ const PostSchema = new mongoose.Schema({
   },
   date: {
     type: String,
-    default: moment().format("YYYY-MM-DD hh:mm:ss"),
+    default: moment().format('YYYY-MM-DD hh:mm:ss'),
   },
   comments: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "comment",
+      ref: 'comment',
     },
   ],
   // creator: {
@@ -31,12 +31,12 @@ const PostSchema = new mongoose.Schema({
   // },
   writer: {
     type: String,
-    required: true
+    required: true,
   },
   deleted: {
-    type : Number,
+    type: Number,
     default: 0,
-  }
+  },
 });
 
 // PostSchema.virtual("postId").get(function () {
@@ -46,6 +46,6 @@ const PostSchema = new mongoose.Schema({
 //   virtuals: true,
 // })
 
-const Post = mongoose.model("post", PostSchema);
+const Post = mongoose.model('post', PostSchema);
 
 module.exports = Post;
