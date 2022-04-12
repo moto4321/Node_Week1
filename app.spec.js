@@ -10,7 +10,7 @@ describe('포스트 라우트!!!', () => {
   test('포스팅을 등록할 때 200을 반환해야 함', async () => {
     const response = await request(app).post('/posts')
     expect(response.status).toEqual(200)
-  }) 
+  })
 
   // test('포스트를 삭제할 때 200을 반환해야 함', async () => {
   //   const response = await request(app).post('/posts/*')
