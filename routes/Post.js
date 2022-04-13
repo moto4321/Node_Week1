@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
 // 게시물 하나 가져오기
 router.get('/:id', async (req, res) => {
   const id = parseInt(req.params.id);
-  const post = await Post.findOne({ id: id });
+  const post = await Post.findOne({ id });
 
   const comments = await Comment.find({ postId: id, deleted: 0 }).sort({
     id: -1,

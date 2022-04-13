@@ -6,8 +6,8 @@ const router = express.Router();
 // 해당 댓글 하나 가져오기
 router.get('/:postid/:id', async (req, res) => {
   try {
-    const id = req.params.id;
-    const oneComment = await Comment.findOne({ id: id });
+    const { id } = req.params;
+    const oneComment = await Comment.findOne({ id });
 
     return res.json(oneComment);
   } catch (error) {
