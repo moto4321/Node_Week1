@@ -28,7 +28,7 @@ app.use('/comments', commentRouter);
 
 // 404
 app.get('*', (req, res) => {
-  res.send('404 Not Found');
+  return res.sendFile(__dirname + '/client/notFound.html')
 });
 
 app.listen(PORT, () => {

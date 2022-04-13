@@ -19,7 +19,7 @@ function wrapAsync(fn) {
 // 전체 게시물 가져오기
 router.get('/', async (req, res) => {
   const posts = await Post.find({ deleted: 0 }).sort({ date: -1 });
-  res.json(posts);
+  return res.json(posts);
 });
 
 // 게시물 하나 가져오기
@@ -30,7 +30,7 @@ router.get('/:id', async (req, res) => {
   const comments = await Comment.find({ postId: id, deleted: 0 }).sort({
     id: -1,
   });
-  res.json({
+  return res.json({
     post,
     comments,
   });
@@ -68,9 +68,9 @@ router.post('/', async (req, res) => {
       writer,
       date: moment().format('YYYY-MM-DD hh:mm:ss'),
     });
-    res.json(newPost);
+    return res.json(newPost);
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       errorMessage: '입력 형식이 맞지 않습니다.',
     })
   }
@@ -82,9 +82,9 @@ router.post('/:id', async (req, res) => {
     const postId = req.params.id;
     await Post.updateOne({ id: postId }, { $set: { deleted: 1 } });
 
-    res.json({ success: true });
+    return res.json({ success: true });
   } catch (error) {
-    res.status(500).json({ error: error.toString() });
+    return res.status(500).json({ error: error.toString() });
   }
 });
 
@@ -95,9 +95,9 @@ router.get('/update/:id', async (req, res) => {
 
     const post = await Post.findOne({ id: postId });
 
-    res.json({ post });
+    return res.json({ post });
   } catch (error) {
-    res.status(500).json({ error: error.toString() });
+    return res.status(500).json({ error: error.toString() });
   }
 });
 
@@ -113,9 +113,9 @@ router.patch('/:id', async (req, res) => {
     );
 
     const post = await Post.findOne({ id: postId });
-    res.json(post);
+    return res.json(post);
   } catch (error) {
-    res.status(500).json({ error: error.toString() });
+    return res.status(500).json({ error: error.toString() });
   }
 });
 

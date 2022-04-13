@@ -50,12 +50,12 @@
 
           // for (let i = 0; i < comments.length; i++) {
           for (comment of comments) {
-            let comm = comment['comment']
+            let cmt = comment['comment']
             let id = comment['id']
             let postId = comment['postId']
 
 
-            let comments_html = `<ul>${comm}</ul>
+            let comments_html = `<ul>${cmt}</ul>
                                   <button onclick="showEditBox(${id})">수정</button>
                                   <button onclick="deleteComment(${id})">삭제</button>
                                 `

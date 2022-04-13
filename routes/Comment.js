@@ -9,9 +9,9 @@ router.get('/:postid/:id', async (req, res) => {
     const id = req.params.id;
     const oneComment = await Comment.findOne({ id: id });
 
-    res.json(oneComment);
+    return res.json(oneComment);
   } catch (error) {
-    res.status(500).json({ error: error.toString() });
+    return res.status(500).json({ error: error.toString() });
   }
 });
 
@@ -38,39 +38,38 @@ router.post('/:postid', async (req, res) => {
       postId: postId,
     });
 
-    res.json({ success: true });
+    return res.json({ success: true });
   } catch (error) {
-    res.status(500).json({ error: error.toString() });
+    return res.status(500).json({ error: error.toString() });
   }
 });
 
 // 댓글 삭제
 router.post('/:postid/:id', async (req, res) => {
   try {
-    const postId = req.params.postid;
-    const id = req.params.id;
+    const { postid, id } = req.params;
 
     await Comment.updateOne(
-      { postId: postId, id: id },
+      { postId: postid, id: id },
       { $set: { deleted: 1 } }
     );
-    res.json({ success: true });
+    return res.json({ success: true });
   } catch (error) {
-    res.status(500).json({ error: error.toString() });
+    return res.status(500).json({ error: error.toString() });
   }
 });
 
 // 댓글 수정
 router.patch('/:postid/:id', async (req, res) => {
   try {
-    const id = req.params.id;
+    const { id } = req.params;
     const { newComment } = req.body;
 
     await Comment.updateOne({ id: id }, { $set: { comment: newComment } });
 
-    res.json({ success: true });
+    return res.json({ success: true });
   } catch (error) {
-    res.status(500).json({ error: error.toString() });
+    return res.status(500).json({ error: error.toString() });
   }
 });
 
