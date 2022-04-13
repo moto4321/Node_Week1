@@ -4,10 +4,10 @@ const Comment = require('../models/comment');
 const router = express.Router();
 
 // 해당 댓글 하나 가져오기
-router.get('/:postid/:id', async (req, res) => {
+router.get('/:postId/:commentId', async (req, res) => {
   try {
-    const { id } = req.params;
-    const oneComment = await Comment.findOne({ id });
+    const { commentId } = req.params;
+    const oneComment = await Comment.findOne({ id: commentId });
 
     return res.json(oneComment);
   } catch (error) {
@@ -16,9 +16,9 @@ router.get('/:postid/:id', async (req, res) => {
 });
 
 // 댓글 작성
-router.post('/:postid', async (req, res) => {
+router.post('/:postId', async (req, res) => {
   try {
-    const postId = parseInt(req.params.postid);
+    const { postId } = req.params;
     const { comment } = req.body;
 
     let newId;
@@ -45,12 +45,12 @@ router.post('/:postid', async (req, res) => {
 });
 
 // 댓글 삭제
-router.post('/:postid/:id', async (req, res) => {
+router.post('/:postId/:commentId', async (req, res) => {
   try {
-    const { postid, id } = req.params;
+    const { postId, commentId } = req.params;
 
     await Comment.updateOne(
-      { postId: postid, id: id },
+      { postId: postId, id: commentId },
       { $set: { deleted: 1 } }
     );
     return res.json({ success: true });
@@ -60,12 +60,12 @@ router.post('/:postid/:id', async (req, res) => {
 });
 
 // 댓글 수정
-router.patch('/:postid/:id', async (req, res) => {
+router.patch('/:postId/:commentId', async (req, res) => {
   try {
-    const { id } = req.params;
+    const { commentId } = req.params;
     const { newComment } = req.body;
 
-    await Comment.updateOne({ id: id }, { $set: { comment: newComment } });
+    await Comment.updateOne({ id: commentId }, { $set: { comment: newComment } });
 
     return res.json({ success: true });
   } catch (error) {

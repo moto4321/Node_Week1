@@ -23,11 +23,11 @@ router.get('/', async (req, res) => {
 });
 
 // 게시물 하나 가져오기
-router.get('/:id', async (req, res) => {
-  const id = parseInt(req.params.id);
-  const post = await Post.findOne({ id });
+router.get('/:postId', async (req, res) => {
+  const { postId } = req.params;
+  const post = await Post.findOne({ id: postId });
 
-  const comments = await Comment.find({ postId: id, deleted: 0 }).sort({
+  const comments = await Comment.find({ postId: postId, deleted: 0 }).sort({
     id: -1,
   });
   return res.json({
@@ -77,9 +77,9 @@ router.post('/', async (req, res) => {
 });
 
 //게시물 하나 삭제
-router.post('/:id', async (req, res) => {
+router.post('/:postId', async (req, res) => {
   try {
-    const postId = req.params.id;
+    const { postId } = req.params;
     await Post.updateOne({ id: postId }, { $set: { deleted: 1 } });
 
     return res.json({ success: true });
@@ -89,9 +89,9 @@ router.post('/:id', async (req, res) => {
 });
 
 // 수정할 게시물 data
-router.get('/update/:id', async (req, res) => {
+router.get('/update/:postId', async (req, res) => {
   try {
-    const postId = parseInt(req.params.id);
+    const { postId } = req.params;
 
     const post = await Post.findOne({ id: postId });
 
@@ -102,10 +102,10 @@ router.get('/update/:id', async (req, res) => {
 });
 
 //게시물 수정
-router.patch('/:id', async (req, res) => {
+router.patch('/:postId', async (req, res) => {
   try {
     const { title, contents, writer } = req.body;
-    const postId = parseInt(req.params.id);
+    const { postId } = req.params;
 
     await Post.updateOne(
       { id: postId },
